@@ -96,7 +96,7 @@ def _get_similarity_func(mol_type):
     if mol_type == "ligand":
         return _fingerprint_similarity_func
     else:
-        raise ValueError("Valid molecule types are 'ligand' and 'protein'.")
+        raise ValueError("Valid molecule types are 'ligand', 'protein;, and 'protein_sym'.")
 
 
 def filter_distances(sims, n_sims):
