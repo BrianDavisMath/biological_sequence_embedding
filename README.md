@@ -2,10 +2,9 @@
 This repo is for sharing the featurization methods developed at the Markey Cancer Center with Sally Ellingson.
 
 
-Reference proteins are sourced from [here](https://www.uniprot.org/proteomes/UP000005640), and are the proteins encoded
-for by human chromosomes.and
+Reference proteins (proteins encoded by human chromosomes) are sourced from [here](https://www.uniprot.org/proteomes/UP000005640).
 
-Reference ligands are sourced from [here](http://www.hmdb.ca/downloads). They consist of all metabolites found in
-the human body.
+Reference ligands (all metabolites found in
+the human body) are sourced from [here](http://www.hmdb.ca/downloads).
 
 We consider ``complex" space to consist of all pairs from these data sets.
