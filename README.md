@@ -28,7 +28,7 @@ After downloading the proteins file we run the following sequence of commands to
   python extract_reference_fastas.py
   python sparse_distances.py reference_FASTAS.csv protein
   ```
-The result will be a .joblib file containing the sparse distance matrix whose entries correspond to the 200 "closest" ligands for each ligand. If you want the "symmetric" version, use "protein_sym" as the last argument
+The result will be a .joblib file containing the sparse distance matrix whose entries correspond to the 200 "closest" proteins for each protein. If you want the "symmetric" version, use "protein_sym" as the last argument
 #### Ligand workflow
 After downloading the ligands file we run the following sequence of commands to build our reference ligand dataset:
 
@@ -38,5 +38,7 @@ After downloading the ligands file we run the following sequence of commands to 
   python sparse_distances.py reference_fingerprints.joblib ligand
   ```
 The result will be a .joblib file containing the sparse distance matrix whose entries correspond to the 200 "closest" ligands for each ligand.
+The argument "8" is the radius used in the calculation of the fingerprint. Typical values are 4 (resulting in high redundancy), 6, and 8.
+The argument 4096 is the bit-length used, a high bit-length reduces the frequency of collisions, again leading fewer redundant fingerprints.
 
 
