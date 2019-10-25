@@ -19,7 +19,7 @@ We consider ``complex" space to consist of all pairs from these data sets (altho
 
 
 ## Usage
-    Requires:
-    * Python 3.6.8*
-    * RDKit*
-    * UMAP-Learn*
+Requires:
+    *Python 3.6.8
+    *RDKit
+    *UMAP-Learn
