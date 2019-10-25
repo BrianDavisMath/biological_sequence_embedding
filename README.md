@@ -16,3 +16,10 @@ We use [Tanimoto similarity](https://scikit-learn.org/stable/modules/generated/s
 
 ## Reference complexes
 We consider ``complex" space to consist of all pairs from these data sets (although clearly most such pairs do not form complexes).
+
+
+## Usage
+    Requires:
+    * Python 3.6.8*
+    * RDKit*
+    * UMAP-Learn*
