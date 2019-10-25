@@ -19,8 +19,24 @@ We consider "complex" space to consist of all pairs from these data sets (althou
 
 
 ## Usage
-Requires:
+Requires: Python 3.6.8.
 
-  * Python 3.6.8
-  * RDKit
-  * UMAP-Learn
+#### Protein workflow
+After downloading the proteins file we run the following sequence of commands to build our dataset:
+
+  ```
+  python extract_reference_fastas.py
+  python sparse_distances.py reference_FASTAS.csv protein
+  ```
+The result will be a .joblib file containing the sparse distance matrix whose entries correspond to the 200 "closest" ligands for each ligand. If you want the "symmetric" version, use "protein_sym" as the last argument
+#### Ligand workflow
+After downloading the ligands file we run the following sequence of commands to build our reference ligand dataset:
+
+  ```
+  python extract_reference_smiles.py
+  python remove_fingerprint_redundancy.py reference_SMILES.csv reference_fingerprints 8 4096
+  python sparse_distances.py reference_fingerprints.joblib ligand
+  ```
+The result will be a .joblib file containing the sparse distance matrix whose entries correspond to the 200 "closest" ligands for each ligand.
+
+

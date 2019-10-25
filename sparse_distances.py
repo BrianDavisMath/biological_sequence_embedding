@@ -10,11 +10,14 @@ sys.setrecursionlimit(10**6)
 num_neighbors = 200
 
 
-def main(sequence_file, sequence_type):
-    sequences = pd.read_csv(sequence_file, header=-1).set_index(0).values.flatten()
+def main(sequence_file_, sequence_type_):
+    if "protein" in sequence_type_:
+        sequences = pd.read_csv(sequence_file_, header=-1).set_index(0).values.flatten()
+    elif "ligand" in sequence_type_:
+        sequences = joblib.load(sequence_file_)
     size = len(sequences)
-    dataset = DataSet(sequences, sequence_type, n_nhbrs=num_neighbors)
-    output_file = sequence_file.split(".")[0] + f"_sparse_distance_mat_{sequence_type}_{num_neighbors}.joblib"
+    dataset = DataSet(sequences, sequence_type_, n_nhbrs=num_neighbors)
+    output_file = sequence_file.split(".")[0] + f"_sparse_distance_mat_{sequence_type_}_{num_neighbors}.joblib"
     nhbrs, dsts = dataset.neighbors(sequences)
     # embed reference_data by building sparse distance matrix
     rows = np.sort(list(range(size)) * num_neighbors)
@@ -26,8 +29,8 @@ def main(sequence_file, sequence_type):
 
 
 if __name__ == "__main__":
-    _, sequence_file, sequence_type = sys.argv
+    *_, sequence_file, sequence_type = sys.argv
     main(sequence_file, sequence_type)
 
 """Example usage:
-python reference_embedding.py reference_FASTAS.csv protein_sym"""
+python sparse_distances.py reference_fingerprints.joblib ligand"""

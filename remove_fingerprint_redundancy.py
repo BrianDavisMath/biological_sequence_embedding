@@ -3,26 +3,10 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import AllChem
-from sklearn.metrics import pairwise_distances
-import sys
-from scipy.sparse import dok_matrix
-import multiprocessing as mp
 import warnings
+import sys
+
 warnings.filterwarnings('ignore')
-sys.setrecursionlimit(10**6)
-
-fingerprint_radius = 8
-fingerprint_bits = 4096
-smiles_filename = "reference_SMILES.csv"
-
-
-def get_fingerprints(smiles_string):
-    try:
-        mol = Chem.MolFromSmiles(smiles_string)
-        on_bits = AllChem.GetMorganFingerprintAsBitVect(mol, fingerprint_radius, nBits=fingerprint_bits).GetOnBits()
-        return np.array(on_bits)
-    except Exception:
-        return np.nan
 
 
 class Node:
@@ -99,24 +83,42 @@ def insert(name, word, node):
         return
 
 
-# read in smiles
-smiles = pd.read_csv(smiles_filename, names=["id", "SMILES"]).set_index("id")
-# compute fingerprints
-fingerprints = smiles.SMILES.apply(get_fingerprints).dropna()
-# add to tree
-for i in range(len(fingerprints)):
-    insert(fingerprints.index[i], fingerprints.iloc[i], root)
-# gather unique fingerprints and form dictionary of ids
-relevant_nodes = [node for node in tree if node.ids != []]
-prints = {}
-ids = {}
-for node_index, node in enumerate(relevant_nodes):
-    fingerprint = node.accum_fingerprint()
-    binary_fingerprint = np.zeros(fingerprint_bits)
-    for index in fingerprint:
-        binary_fingerprint[index] = 1
-    prints[node_index] = binary_fingerprint.astype(bool)
-    for mol_id in node.ids:
-        ids[mol_id] = node_index
-prints_array = pd.DataFrame(prints).transpose().values
-max_neighbors = 200
+def main(smiles_file_, fingerprint_filename_, fingerprint_bits_):
+    # read in smiles
+    smiles = pd.read_csv(smiles_file_, names=["id", "SMILES"]).set_index("id")
+    # compute fingerprints
+    print("Computing fingerprints")
+    fingerprints = smiles.SMILES.apply(get_fingerprints).dropna()
+    # add to tree
+    print("Inserting fingerprints into search tree.")
+    for i in range(len(fingerprints)):
+        insert(fingerprints.index[i], fingerprints.iloc[i], root)
+    # gather unique fingerprints and form dictionary of ids
+    relevant_nodes = [node for node in tree if node.ids != []]
+    prints = {}
+    ids = {}
+    for node_index, node in enumerate(relevant_nodes):
+        fingerprint = node.accum_fingerprint()
+        binary_fingerprint = np.zeros(fingerprint_bits_)
+        for index in fingerprint:
+            binary_fingerprint[index] = 1
+        prints[node_index] = binary_fingerprint.astype(bool)
+        for mol_id in node.ids:
+            ids[mol_id] = node_index
+    print("Finished finding unique fingerprints. Saving at '{fingerprint_filename_}.joblib'")
+    prints_array = pd.DataFrame(prints).transpose().values
+    joblib.dump(prints_array, fingerprint_filename_ + ".joblib")
+
+
+if __name__ == "__main__":
+    _, smiles_file, fingerprint_filename, fingerprint_radius, fingerprint_bits = sys.argv
+
+    def get_fingerprints(smiles_string):
+        try:
+            mol = Chem.MolFromSmiles(smiles_string)
+            on_bits = AllChem.GetMorganFingerprintAsBitVect(mol, fingerprint_radius, nBits=fingerprint_bits).GetOnBits()
+            return np.array(on_bits)
+        except Exception:
+            return np.nan
+
+    main(smiles_file, fingerprint_filename, fingerprint_bits)
