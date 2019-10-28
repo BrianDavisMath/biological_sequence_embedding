@@ -43,4 +43,10 @@ The result will be a .joblib file containing the sparse distance matrix whose en
 The argument "8" is the radius used in the calculation of the fingerprint. Typical values are 4 (resulting in high redundancy), 6, and 8.
 The argument 4096 is the bit-length used, a high bit-length reduces the frequency of collisions, again leading fewer redundant fingerprints.
 
+### UMAP embedding
+Onve you have produced the sparse distance matrix for your protein / ligand data, you can run a grid search for optimal embedding hyperparameters using UMAP with the following command:
 
+  ```
+  python sparse_umap_embedding.py {}_sparse_distance_mat_{}_{}.joblib
+  ```
+  The script will produce the file ```{}_neighbor_metrics.csv```, which you can then inspect.
