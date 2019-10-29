@@ -137,8 +137,13 @@ class DataSet:
 
     def neighbors(self, external_sequences):
         with mp.Pool(processes=(max(1, mp.cpu_count() - 1))) as p:
-            tmp = np.array(p.map(self.get_neighbors, external_sequences, chunksize=10))
-        return tmp[:, 0, :].astype(int), tmp[:, 1, :]
+            tmp = np.array(p.map(self.get_neighbors, external_sequences, chunksize=100))
+        try:
+            return tmp[:, 0, :].astype(int), tmp[:, 1, :]
+        except IndexError:
+            # some debugging stuff
+            print(f"neighbors array shape: {tmp.shape}")
+            print(f"sequences array shape: {tmp.shape}")
 
     def initial_embedding(self, ref_neighbors, ref_dsts):
         relevant_coords = np.take(self.viz, ref_neighbors, axis=0)
