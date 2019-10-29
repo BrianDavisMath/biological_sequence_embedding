@@ -109,7 +109,6 @@ def main(smiles_file_, fingerprint_radius_, fingerprint_bits_):
     prints_array = pd.DataFrame(prints).transpose().values
     pd.DataFrame(prints_array).to_csv("reference_fingerprints_"
                                       f"{fingerprint_radius_}_{fingerprint_bits_}.csv", header=None)
-    #joblib.dump(prints_array, f"reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.joblib")
 
 
 if __name__ == "__main__":
