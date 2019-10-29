@@ -83,7 +83,7 @@ def insert(name, word, node):
         return
 
 
-def main(smiles_file_, fingerprint_filename_, fingerprint_bits_):
+def main(smiles_file_, fingerprint_radius_, fingerprint_bits_):
     # read in smiles
     smiles = pd.read_csv(smiles_file_, names=["id", "SMILES"]).set_index("id")
     # compute fingerprints
@@ -105,13 +105,13 @@ def main(smiles_file_, fingerprint_filename_, fingerprint_bits_):
         prints[node_index] = binary_fingerprint.astype(bool)
         for mol_id in node.ids:
             ids[mol_id] = node_index
-    print("Finished finding unique fingerprints. Saving at '{fingerprint_filename_}.joblib'")
+    print(f"Finished finding unique fingerprints. Saving at 'reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.joblib'")
     prints_array = pd.DataFrame(prints).transpose().values
-    joblib.dump(prints_array, fingerprint_filename_ + ".joblib")
+    joblib.dump(prints_array, f"reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.joblib")
 
 
 if __name__ == "__main__":
-    _, smiles_file, fingerprint_filename, fingerprint_radius, fingerprint_bits = sys.argv
+    _, smiles_file, fingerprint_radius, fingerprint_bits = sys.argv
 
     def get_fingerprints(smiles_string):
         try:
@@ -121,4 +121,4 @@ if __name__ == "__main__":
         except Exception:
             return np.nan
 
-    main(smiles_file, fingerprint_filename, fingerprint_bits)
+    main(smiles_file, fingerprint_radius, fingerprint_bits)
