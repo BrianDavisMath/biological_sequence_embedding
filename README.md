@@ -36,8 +36,8 @@ After downloading the ligands file we run the following sequence of commands to 
 
   ```
   python extract_reference_smiles.py
-  python remove_fingerprint_redundancy.py reference_SMILES.csv reference_fingerprints 8 4096
-  python sparse_distances.py reference_fingerprints.joblib ligand
+  python remove_fingerprint_redundancy.py reference_SMILES.csv 8 4096
+  python sparse_distances.py reference_fingerprints_8_4096.joblib ligand
   ```
 The result will be a .joblib file containing the sparse distance matrix whose entries correspond to the 200 "closest" ligands for each ligand.
 The argument "8" is the radius used in the calculation of the fingerprint. Typical values are 4 (resulting in high redundancy), 6, and 8.
