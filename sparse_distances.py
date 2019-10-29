@@ -13,6 +13,7 @@ num_neighbors = 200
 def main(sequence_file_, sequence_type_):
     sequences = pd.read_csv(sequence_file_, header=-1).set_index(0).values
     size = len(sequences)
+    print(f"sequences length: {size}")
     dataset = DataSet(sequences, sequence_type_, n_nhbrs=num_neighbors)
     if "ligand" in sequence_type_:
         sequence_params = sequence_file_.split("fingerprints")[1].split(".")[0]
