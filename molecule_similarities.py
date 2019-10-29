@@ -101,6 +101,8 @@ def _get_similarity_func(mol_type):
 
 def filter_distances(sims, n_sims):
     neighbors = np.argsort(sims)[:n_sims]
+    if neighbors.size == 0:
+        raise UserWarning("filter distances not returning neighbors")
     return neighbors.tolist(), sims[neighbors].flatten().tolist()
 
 
@@ -133,17 +135,20 @@ class DataSet:
     def get_neighbors(self, external_sequence):
         all_dists = 1 - self.get_similarities(external_sequence).flatten()
         neighbors, distances = filter_distances(all_dists, self.n_neighbors)
+        if len(neighbors) < self.n_neighbors:
+            raise UserWarning("Filter distances returning too few neighbors")
         return neighbors, distances
 
     def neighbors(self, external_sequences):
         with mp.Pool(processes=(max(1, mp.cpu_count() - 1))) as p:
-            tmp = np.array(p.map(self.get_neighbors, external_sequences, chunksize=100))
+            similarities_ = p.map(self.get_neighbors, external_sequences, chunksize=100)
+            tmp = np.array(similarities_)
         try:
             return tmp[:, 0, :].astype(int), tmp[:, 1, :]
         except IndexError:
             # some debugging stuff
             print(f"neighbors array shape: {tmp.shape}")
-            print(f"sequences array shape: {tmp.shape}")
+            print(f"sequences array shape: {external_sequences.shape}")
 
     def initial_embedding(self, ref_neighbors, ref_dsts):
         relevant_coords = np.take(self.viz, ref_neighbors, axis=0)
