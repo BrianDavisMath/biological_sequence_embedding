@@ -1,4 +1,3 @@
-import joblib
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -105,9 +104,12 @@ def main(smiles_file_, fingerprint_radius_, fingerprint_bits_):
         prints[node_index] = binary_fingerprint.astype(bool)
         for mol_id in node.ids:
             ids[mol_id] = node_index
-    print(f"Finished finding unique fingerprints. Saving at 'reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.joblib'")
+    print("Finished finding unique fingerprints. Saving at "
+          f"'reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.csv'")
     prints_array = pd.DataFrame(prints).transpose().values
-    joblib.dump(prints_array, f"reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.joblib")
+    pd.DataFrame(prints_array).to_csv("reference_fingerprints_"
+                                      f"{fingerprint_radius_}_{fingerprint_bits_}.csv", header=None)
+    #joblib.dump(prints_array, f"reference_fingerprints_{fingerprint_radius_}_{fingerprint_bits_}.joblib")
 
 
 if __name__ == "__main__":

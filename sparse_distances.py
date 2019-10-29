@@ -11,10 +11,7 @@ num_neighbors = 200
 
 
 def main(sequence_file_, sequence_type_):
-    if "protein" in sequence_type_:
-        sequences = pd.read_csv(sequence_file_, header=-1).set_index(0).values.flatten()
-    elif "ligand" in sequence_type_:
-        sequences = joblib.load(sequence_file_)
+    sequences = pd.read_csv(sequence_file_, header=-1).set_index(0).values
     size = len(sequences)
     dataset = DataSet(sequences, sequence_type_, n_nhbrs=num_neighbors)
     if "ligand" in sequence_type_:
@@ -36,5 +33,3 @@ if __name__ == "__main__":
     *_, sequence_file, sequence_type = sys.argv
     main(sequence_file, sequence_type)
 
-"""Example usage:
-python sparse_distances.py reference_fingerprints.joblib ligand"""
