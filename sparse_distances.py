@@ -17,7 +17,11 @@ def main(sequence_file_, sequence_type_):
         sequences = joblib.load(sequence_file_)
     size = len(sequences)
     dataset = DataSet(sequences, sequence_type_, n_nhbrs=num_neighbors)
-    output_file = sequence_file.split(".")[0] + f"_sparse_distance_mat_{sequence_type_}_{num_neighbors}.joblib"
+    if "ligand" in sequence_type_:
+        sequence_params = sequence_file_.split("fingerprints")[1].split(".")[0]
+    else:
+        sequence_params = ""
+    output_file = f"sparse_distance_mat_{num_neighbors}_" + sequence_type_ + sequence_params + ".joblib"
     nhbrs, dsts = dataset.neighbors(sequences)
     # embed reference_data by building sparse distance matrix
     rows = np.sort(list(range(size)) * num_neighbors)
