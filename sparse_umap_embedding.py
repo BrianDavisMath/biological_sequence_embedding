@@ -12,14 +12,11 @@ warnings.filterwarnings('ignore')
 sys.setrecursionlimit(10**6)
 
 
-"""nhbrs = [2, 3, 5, 10, 25]
+nhbrs = [2, 3, 5, 10, 25]
 dsts = [0.0, 0.01, 0.1, 0.5]
 dims = [2, 5, 10, 100]
-rands = [42, 21, 7, 3]"""
-nhbrs = [2]
-dsts = [0.0]
-dims = [2]
-rands = [42]
+rands = [42, 21, 7, 3]
+
 print("Performing parameter grid search...")
 feed = list(itertools.product(*[nhbrs, dsts, dims, rands]))
 
