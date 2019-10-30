@@ -7,6 +7,8 @@ from rdkit.Chem import AllChem
 from sklearn.metrics import pairwise_distances
 import multiprocessing as mp
 import warnings
+from umap import UMAP
+import pandas as pd
 
 
 def get_fingerprints(smiles_string):
@@ -156,3 +158,36 @@ class DataSet:
         sims_ /= np.sum(sims_, axis=1).reshape(-1, 1)
         tmp = [np.array(a).dot(b).tolist() for a, b in zip(sims_.tolist(), relevant_coords.tolist())]
         return np.array(tmp)
+
+
+def neighbor_score(num_neighbors_, min_dist_, dim_, rand_state_,
+                   max_neighbors_, similarities_, highest_sims_):
+    neighbor_performance = dict({"num_neighbors": num_neighbors_,
+                                 "min_dist": min_dist_,
+                                 "dim": dim_,
+                                 "rand_state": rand_state_})
+    try:
+        embedding = UMAP(n_neighbors=num_neighbors_,
+                         min_dist=min_dist_,
+                         n_components=dim_,
+                         random_state=rand_state_
+                         ).fit_transform(similarities_)
+        nn = NearestNeighbors(n_neighbors=max_neighbors_, n_jobs=-1)
+        nn.fit(embedding)
+        nearest_embed = nn.kneighbors(embedding, return_distance=False).tolist()
+        counts = [len(set(a).intersection(set(b))) for a, b in zip(nearest_embed, highest_sims_)]
+        counts = np.array(counts) / max_neighbors_
+        neighbor_performance.update(pd.Series(counts).describe().to_dict())
+        print(neighbor_performance)
+        return neighbor_performance
+    except Exception:
+        print(f"Embedding failed with parameters: {neighbor_performance}")
+        pass
+
+
+def get_neighbor_score_func(max_neighbors_, similarities_, highest_sims_):
+    def neighbor_score_func(params_):
+        num_neighbors, min_dist, dim, rand_state = params_
+        return neighbor_score(num_neighbors, min_dist, dim, rand_state,
+                              max_neighbors_, similarities_, highest_sims_)
+    return neighbor_score_func
