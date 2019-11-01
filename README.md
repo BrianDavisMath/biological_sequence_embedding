@@ -19,7 +19,7 @@ We consider "complex" space to consist of all pairs from these data sets (althou
 
 
 ## Usage
-Requires: Python 3.6.8.
+Written for Python 3.6.8 and with [these packages](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/packages.txt).
 
 The basic approach of the project is to compute sequence similarity, save the indices and similarities of the 200 most similar sequences to each sequence, then to pass this sparse matrix to UMAP for embedding, or to create a Networkx graph with similarity-weighted edges and embed that.  
 
