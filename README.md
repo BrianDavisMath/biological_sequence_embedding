@@ -65,7 +65,7 @@ Once you have produced the sparse distance matrix for your protein / ligand data
   produces the image below.
   ```
   Image
-  ![alt text]( "Logo Title Text 1")
+  ![alt text](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/200_ligand_4_1024_10_75_2_4.png "embedded ligands")
   ```
   
 
