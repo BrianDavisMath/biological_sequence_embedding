@@ -62,10 +62,8 @@ Once you have produced the sparse distance matrix for your protein / ligand data
   embedding = pd.read_csv("sparse_distance_mat_200_ligand_4_1024_embedding.csv", index_col=0, names=['x', 'y'])
   plt.scatter(embedding.x, embedding.y, alpha=0.01)
   ```
-  produces the image below.
-  ```
-  Image
+  produces the image
   ![alt text](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/200_ligand_4_1024_10_75_2_4.png "embedded ligands")
-  ```
+  
   
 
