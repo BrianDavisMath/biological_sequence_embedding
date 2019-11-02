@@ -50,7 +50,7 @@ Once you have produced the sparse distance matrix for your protein / ligand data
   python sparse_umap_gridsearch.py sparse_distance_mat_{sequence_info}.joblib
   ```
   The script will produce the file ```{sequence_info}_neighbor_metrics.csv```, which you can then inspect. You can then run ```sparse_umap_embedding.py``` with your chosen parameters to get your embedding:
-  for example, for parameters ```n_neighbors=10, min_dist=0.75, dim=2, random_state=42```, you can run
+  for example, for UMAP parameters ```n_neighbors=10, min_dist=0.75, dim=2, random_state=42```, you can run
   ```
   python sparse_umap_embedding.py sparse_distance_mat_200_ligand_4_1024.joblib 10, 0.75, 2, 42
   ```
