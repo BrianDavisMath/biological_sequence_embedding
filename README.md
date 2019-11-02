@@ -14,9 +14,6 @@ The sequence we use for ligands is the binary [fingerprint](https://www.rdkit.or
 
 We use [Tanimoto similarity](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.jaccard_score.html) as the similarity between two ligands.
 
-## Reference complexes
-We consider "complex" space to consist of all pairs from these data sets (although clearly most such pairs do not form complexes).
-
 
 ## Usage
 Written for Python 3.6.8 and with [these packages](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/packages.txt).
