@@ -56,7 +56,7 @@ Once you have produced the sparse distance matrix for your protein / ligand data
   ```
   python sparse_umap_embedding.py sparse_distance_mat_200_ligand_4_1024.joblib 10, 0.75, 2, 42
   ```
-  to produce the file ```200_ligand_4_1024_10_75_2_42_embedding.csv```
+  to produce the file ```200_ligand_4_1024_10_075_2_42_embedding.csv```
   which, when plotted with pyplot:
   ```
   import matplotlib.pyplot as plt
