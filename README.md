@@ -44,9 +44,28 @@ The argument "8" is the radius used in the calculation of the fingerprint. Typic
 The argument 4096 is the bit-length used, a high bit-length reduces the frequency of collisions, again leading fewer redundant fingerprints.
 
 ### UMAP embedding
-Onve you have produced the sparse distance matrix for your protein / ligand data, you can run a grid search for optimal embedding hyperparameters using UMAP with the following command:
+Once you have produced the sparse distance matrix for your protein / ligand data, you can run a grid search for optimal embedding hyperparameters using UMAP with the following command:
 
   ```
   python sparse_umap_embedding.py {}_sparse_distance_mat_{}_{}.joblib
   ```
-  The script will produce the file ```{}_neighbor_metrics.csv```, which you can then inspect.
+  The script will produce the file ```{}_neighbor_metrics.csv```, which you can then inspect. You can then run ```sparse_umap_embedding.py``` with your chosen parameters to get your embedding:
+  for example, with parameters , you can run
+  ```
+  python sparse_umap_embedding.py {}_sparse_distance_mat_{}_{}.joblib 10, 0.75, 2, 42
+  ```
+  to produce the file ```sparse_distance_mat_200_ligand_4_1024_embedding.csv```
+  which, when plotted with pyplot:
+  ```
+  import matplotlib.pyplot as plt
+  import pandas as pd
+  embedding = pd.read_csv("sparse_distance_mat_200_ligand_4_1024_embedding.csv", index_col=0, names=['x', 'y'])
+  plt.scatter(embedding.x, embedding.y, alpha=0.01)
+  ```
+  produces the image below.
+  ```
+  Image
+  ![alt text]( "Logo Title Text 1")
+  ```
+  
+
