@@ -47,23 +47,23 @@ The argument 4096 is the bit-length used, a high bit-length reduces the frequenc
 Once you have produced the sparse distance matrix for your protein / ligand data, you can run a grid search for optimal embedding hyperparameters using UMAP with the following command:
 
   ```
-  python sparse_umap_embedding.py {}_sparse_distance_mat_{}_{}.joblib
+  python sparse_umap_gridsearch.py sparse_distance_mat_{sequence_info}.joblib
   ```
-  The script will produce the file ```{}_neighbor_metrics.csv```, which you can then inspect. You can then run ```sparse_umap_embedding.py``` with your chosen parameters to get your embedding:
-  for example, with parameters , you can run
+  The script will produce the file ```{sequence_info}_neighbor_metrics.csv```, which you can then inspect. You can then run ```sparse_umap_embedding.py``` with your chosen parameters to get your embedding:
+  for example, for parameters ```n_neighbors=10, min_dist=0.75, dim=2, random_state=42```, you can run
   ```
-  python sparse_umap_embedding.py {}_sparse_distance_mat_{}_{}.joblib 10, 0.75, 2, 42
+  python sparse_umap_embedding.py sparse_distance_mat_200_ligand_4_1024.joblib 10, 0.75, 2, 42
   ```
-  to produce the file ```sparse_distance_mat_200_ligand_4_1024_embedding.csv```
+  to produce the file ```200_ligand_4_1024_10_75_2_42_embedding.csv```
   which, when plotted with pyplot:
   ```
   import matplotlib.pyplot as plt
   import pandas as pd
-  embedding = pd.read_csv("sparse_distance_mat_200_ligand_4_1024_embedding.csv", index_col=0, names=['x', 'y'])
+  embedding = pd.read_csv("200_ligand_4_1024_10_75_2_42_embedding.csv", index_col=0, names=['x', 'y'])
   plt.scatter(embedding.x, embedding.y, alpha=0.01)
   ```
   produces the image
-  ![alt text](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/200_ligand_4_1024_10_75_2_4.png "embedded ligands")
+  ![alt text](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/200_ligand_4_1024_10_75_2_4.png "embedded ligands visualization")
   
   
 

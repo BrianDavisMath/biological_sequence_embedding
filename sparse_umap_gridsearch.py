@@ -41,5 +41,5 @@ if __name__ == "__main__":
     print("Running grid search...")
     pool = Pool()
     performances = pool.map(func, feed)
-    pd.DataFrame(performances).to_csv(file_name + "_neighbor_metrics.csv")
-    print(f"Done- saving metrics to {file_name}_neighbor_metrics.csv")
+    pd.DataFrame(performances).to_csv(file_name[20:] + "_neighbor_metrics.csv")
+    print(f"Done- saving metrics to {file_name[20:]}_neighbor_metrics.csv")

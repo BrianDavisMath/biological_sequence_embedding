@@ -24,4 +24,6 @@ if __name__ == "__main__":
                      n_components=int(dim),
                      random_state=int(rand_state)
                      ).fit_transform(similarities)
-    pd.DataFrame(embedding).to_csv(file_name + "_embedding.csv")
+    pd.DataFrame(embedding).to_csv(file_name.split(".")[0][20:]\
+                                   + f"_{num_neighbors}_" + str(min_dist).replace(".", "")\
+                                   + f"_{dim}_{rand_state}_embedding.csv")
