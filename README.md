@@ -49,7 +49,9 @@ Once you have produced the sparse distance matrix for your protein / ligand data
   ```
   python sparse_umap_gridsearch.py sparse_distance_mat_{sequence_info}.joblib
   ```
-  The script will produce the file ```{sequence_info}_neighbor_metrics.csv```, which you can then inspect. You can then run ```sparse_umap_embedding.py``` with your chosen parameters to get your embedding:
+  The script will produce the file ```{sequence_info}_neighbor_metrics.csv```, which you can then inspect. The statistics it reports are for the neighbor_metric of the ```molecule_similarities.py``` module. It is a per-example answer to the question: "What proportion of the closest 200 data points in the embedding where among the 200 most similar sequences?" You might choose UMAP parameters which maximize the 50% (approx. median) value, or the mean value, for example. 
+  
+  You can then run ```sparse_umap_embedding.py``` with your chosen parameters to get your embedding:
   for example, for parameters ```n_neighbors=10, min_dist=0.75, dim=2, random_state=42```, you can run
   ```
   python sparse_umap_embedding.py sparse_distance_mat_200_ligand_4_1024.joblib 10, 0.75, 2, 42
@@ -63,6 +65,7 @@ Once you have produced the sparse distance matrix for your protein / ligand data
   plt.scatter(embedding.x, embedding.y, alpha=0.01)
   ```
   produces the image
+  
   ![alt text](https://github.com/BrianDavisMath/biological_sequence_embedding/blob/master/200_ligand_4_1024_10_75_2_4.png "embedded ligands visualization")
   
   
